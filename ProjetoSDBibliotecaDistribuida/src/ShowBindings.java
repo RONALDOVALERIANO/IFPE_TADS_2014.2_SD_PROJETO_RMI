@@ -1,4 +1,3 @@
-package br.com.sd.rmi;
 
 import java.rmi.Naming;
 import java.rmi.server.*;
