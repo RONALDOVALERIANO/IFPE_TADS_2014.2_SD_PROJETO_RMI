@@ -12,11 +12,20 @@ public class BibSetorialClient {
     private String nomeServico;
     private BibInterface bibCentral;
 
-    public BibSetorialClient(String nome, String hostCentral, String nomeServico) {
-        this.nome = nome;
-        this.hostCentral = hostCentral;
-        this.nomeServico = nomeServico;
+    public BibSetorialClient() {
         this.alunos = new ArrayList();
+    }
+
+    public BibSetorialClient(String nome) {
+        this();
+        this.nome = nome;
+    }
+
+    public BibSetorialClient(String nome, String hostCentral, String porta, String nomeServico) {
+        this(nome);
+        this.hostCentral = hostCentral;
+        this.porta = porta;
+        this.nomeServico = nomeServico;
     }
 
     public void connect() {
@@ -87,8 +96,8 @@ public class BibSetorialClient {
     }
 
     public static void main(String[] args) {
-        BibSetorialClient setorialA = new BibSetorialClient("A", "", "");
-        BibSetorialClient setorialB = new BibSetorialClient("B", "", "");
+        BibSetorialClient setorialA = new BibSetorialClient("A", "localhost", "1099", "BibCentral");
+        BibSetorialClient setorialB = new BibSetorialClient("B", "localhost", "1099", "BibCentral");
 
         setorialA.connect();
         setorialB.connect();
