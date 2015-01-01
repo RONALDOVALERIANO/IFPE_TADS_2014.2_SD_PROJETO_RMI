@@ -48,12 +48,15 @@ public class BibCentralImpl extends UnicastRemoteObject
     @Override
     public void atualizar(Aluno a)
             throws RemoteException {
-        for (Aluno aluno : alunos) {
-            if (aluno.equals(a)) {
-                aluno = a;
+        for (int i = 0; i < alunos.size(); i++) {
+            Aluno aluno = alunos.get(i);
+            if (aluno.getMatricula().equals(a.getMatricula())) {
+                alunos.remove(i);
+                alunos.add(a);
                 break;
             }
         }
+
     }
 
 }

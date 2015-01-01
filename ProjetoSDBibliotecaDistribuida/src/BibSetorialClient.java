@@ -94,7 +94,7 @@ public class BibSetorialClient {
 
     public void emprestar(String matricula, Livro livro) throws RuntimeException {
         Aluno aluno = consultarAluno(matricula);
-        if (aluno.getQtdLivros() <= 3) {
+        if (aluno.getQtdLivros() < 3) {
             aluno.addLivro(livro);
             atualizar(aluno);
         } else {
@@ -106,15 +106,14 @@ public class BibSetorialClient {
     public void atualizar(Aluno a) {
         for (Aluno aluno : alunos) {
             if (aluno.equals(a)) {
-                aluno = a;
                 return;
             }
         }
-        //procurar aluno na central
+        //atualizar aluno na central
         try {
             bibCentral.atualizar(a);
         } catch (RemoteException ex) {
-            System.out.println("Setorial " + this.getNome() + ": Não foi consultar o aluno na central!\nTente reconectar.");
+            System.out.println("Setorial " + this.getNome() + ": Não foi atualizar o aluno na central!\nTente reconectar.");
             ex.printStackTrace();
         }
     }
@@ -132,6 +131,10 @@ public class BibSetorialClient {
 
         System.out.println(setorialA.consultarAluno("1234").getNome());
         System.out.println(setorialA.consultarAluno("5678").getNome());
+
+        System.out.println("Qtd livros :" + setorialA.consultarAluno("5678").getQtdLivros());
+        setorialA.emprestar("5678", new Livro("L", "L", 2000));
+        System.out.println("Qtd livros :" + setorialA.consultarAluno("5678").getQtdLivros());
 
     }
 }

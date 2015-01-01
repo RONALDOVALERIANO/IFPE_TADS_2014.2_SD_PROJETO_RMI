@@ -1,10 +1,13 @@
 
+import java.io.Serializable;
+
+
 
 /**
  *
  * @author Lourivaldo
  */
-public class Livro {
+public class Livro implements Serializable{
 
     private String titulo;
     private String autor;
@@ -12,6 +15,9 @@ public class Livro {
     private int ano;
     private int edicao;
 
+    public Livro() {
+    }
+    
     public Livro(String titulo, String autor, int ano) {
         this.titulo = titulo;
         this.autor = autor;
