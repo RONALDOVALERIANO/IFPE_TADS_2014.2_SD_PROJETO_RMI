@@ -7,16 +7,16 @@ import java.util.ArrayList;
  *
  * @author Lourivaldo
  */
-public class BibliotecaImpl extends UnicastRemoteObject
-        implements BibliotecaInterface {
+public class BibCentralImpl extends UnicastRemoteObject
+        implements BibInterface {
 
     private String nome;
     protected ArrayList<Aluno> alunos;
+    protected ArrayList<BibSetorialClient> setoriais;
 
-    public BibliotecaImpl(String nome)
-            throws RemoteException {
-        this.nome = nome;
+    public BibCentralImpl() throws RemoteException {
         this.alunos = new ArrayList<>();
+        this.setoriais = new ArrayList<>();
     }
 
     public String getNome() {

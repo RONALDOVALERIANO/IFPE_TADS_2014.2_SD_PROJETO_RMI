@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sd.rmi.devmediateste.calc;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,6 +14,7 @@ public class CalculatorImple extends UnicastRemoteObject
         super();
     }
 
+    @Override
     public long add(long a, long b) throws RemoteException {
         return a + b;
     }

@@ -3,10 +3,8 @@ import java.io.Serializable;
 
 public class Aluno implements Serializable {
 
-    private String nome;
     private String matricula;
-    private Integer qtdLivros;
-    private BibliotecaSetorialClient biSetorial;
+    private String nome;
 
     public Aluno() {
         super();
@@ -27,23 +25,5 @@ public class Aluno implements Serializable {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
-
-    public Integer getQtdLivros() {
-        return qtdLivros;
-    }
-
-    public void setQtdLivros(Integer qtdLivros) {
-        this.qtdLivros = qtdLivros;
-    }
-
-    public BibliotecaSetorialClient getBiSetorial() {
-        return biSetorial;
-    }
-
-    public void setBiSetorial(BibliotecaSetorialClient biSetorial) {
-        this.biSetorial = biSetorial;
-    }
-    
-    
 
 }

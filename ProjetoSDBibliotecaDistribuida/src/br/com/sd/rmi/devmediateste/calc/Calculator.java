@@ -1,4 +1,3 @@
-package br.com.sd.rmi.devmediateste.calc;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

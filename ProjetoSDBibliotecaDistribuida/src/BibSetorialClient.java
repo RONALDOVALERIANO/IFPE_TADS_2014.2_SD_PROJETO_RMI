@@ -2,46 +2,44 @@
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class BibliotecaSetorialClient {
+public class BibSetorialClient {
 
+    private ArrayList<Aluno> alunos;
     private String nome;
     private String hostCentral;
+    private String porta;
     private String nomeServico;
-    private ArrayList<Aluno> alunos;
-    private BibliotecaInterface bibCentral;
+    private BibInterface bibCentral;
 
-    public BibliotecaSetorialClient(String nome, String hostCentral, String nomeServico) {
+    public BibSetorialClient(String nome, String hostCentral, String nomeServico) {
         this.nome = nome;
         this.hostCentral = hostCentral;
         this.nomeServico = nomeServico;
-        this.alunos = new ArrayList<>();
-        connect();
+        this.alunos = new ArrayList();
     }
 
     public void connect() {
         try {
-            bibCentral = (BibliotecaInterface) Naming.lookup("rmi://localhost:1099/BibCentral");
-        } catch (Exception e) {
-            System.out.println("Setorial " + getNome() + ": Não foi comunicar-se com a central!\nTente novamente mais tarde.");
-            e.printStackTrace();
+            bibCentral = (BibInterface) Naming.lookup("rmi://" + this.hostCentral + ":" + this.porta + "/" + this.nomeServico);
+        } catch (Exception ex) {
+            System.out.println("Setorial " + getNome() + ": Não foi conectar-se com a central!\nTente novamente mais tarde.");
+            ex.printStackTrace();
         }
     }
 
     public Aluno consultarAluno(String matricula) {
         //procurar aluno na lista local
         for (Aluno aluno : alunos) {
-            if (aluno.getMatricula() == matricula) {
+            if (aluno.getMatricula().equals(matricula)) {
                 return aluno;
             }
         }
-        //na central
+        //procurar aluno na central
         try {
             return bibCentral.consultarAluno(matricula);
         } catch (RemoteException ex) {
-            System.out.println("Setorial " + this.getNome() + ": Não foi comunicar-se com a central!\nTente novamente mais tarde.");
+            System.out.println("Setorial " + this.getNome() + ": Não foi consultar o aluno na central!\nTente reconectar.");
             ex.printStackTrace();
         }
 
@@ -53,12 +51,13 @@ public class BibliotecaSetorialClient {
         Aluno aluno = new Aluno();
         aluno.setNome(nome);
         aluno.setMatricula(matricula);
-        aluno.setBiSetorial(this);
         this.alunos.add(aluno);
+
+        //replicar
         try {
-            //replicar
             this.bibCentral.cadastrarAluno(aluno);
         } catch (RemoteException ex) {
+            System.out.println("Setorial " + this.getNome() + ": Não foi replicar o aluno na central!\nTente reconectar.");
             ex.printStackTrace();
         }
     }
@@ -88,9 +87,17 @@ public class BibliotecaSetorialClient {
     }
 
     public static void main(String[] args) {
-        BibliotecaSetorialClient bib = new BibliotecaSetorialClient("Setorial A", "localhost", "BibCentral");
-        bib.cadastrarAluno("Loro", "2013");
-        Aluno aluno = bib.consultarAluno("2013");
-        System.out.println("Main"+aluno.getNome());
+        BibSetorialClient setorialA = new BibSetorialClient("A", "", "");
+        BibSetorialClient setorialB = new BibSetorialClient("B", "", "");
+
+        setorialA.connect();
+        setorialB.connect();
+
+        setorialA.cadastrarAluno("Loro da A", "1234");
+        setorialB.cadastrarAluno("Joao da B", "5678");
+
+        System.out.println(setorialA.consultarAluno("1234").getNome());
+        System.out.println(setorialA.consultarAluno("5678").getNome());
+
     }
 }
