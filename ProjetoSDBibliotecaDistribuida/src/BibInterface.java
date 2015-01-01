@@ -9,4 +9,7 @@ public interface BibInterface extends Remote {
 
     public void cadastrarAluno(Aluno aluno)
             throws RemoteException;
+    
+    public void atualizar(Aluno aluno)
+            throws RemoteException;
 }

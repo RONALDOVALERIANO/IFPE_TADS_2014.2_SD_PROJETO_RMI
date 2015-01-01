@@ -12,11 +12,11 @@ public class BibCentralImpl extends UnicastRemoteObject
 
     private String nome;
     protected ArrayList<Aluno> alunos;
-    protected ArrayList<BibSetorialClient> setoriais;
+//    protected ArrayList<BibSetorialClient> setoriais;
 
     public BibCentralImpl() throws RemoteException {
         this.alunos = new ArrayList<>();
-        this.setoriais = new ArrayList<>();
+//        this.setoriais = new ArrayList<>();
     }
 
     public String getNome() {
@@ -43,6 +43,17 @@ public class BibCentralImpl extends UnicastRemoteObject
     public void cadastrarAluno(Aluno aluno)
             throws RemoteException {
         this.alunos.add(aluno);
+    }
+
+    @Override
+    public void atualizar(Aluno a)
+            throws RemoteException {
+        for (Aluno aluno : alunos) {
+            if (aluno.equals(a)) {
+                aluno = a;
+                break;
+            }
+        }
     }
 
 }
