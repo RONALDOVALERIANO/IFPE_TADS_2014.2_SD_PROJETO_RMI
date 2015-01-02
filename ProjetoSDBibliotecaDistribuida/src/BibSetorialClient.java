@@ -92,13 +92,13 @@ public class BibSetorialClient {
         this.nomeServico = nomeServico;
     }
 
-    public void emprestar(String matricula, Livro livro) throws RuntimeException {
+    public void emprestar(String matricula) throws RuntimeException {
         Aluno aluno = consultarAluno(matricula);
         if (aluno.getQtdLivros() < 3) {
-            aluno.addLivro(livro);
+            aluno.addLivro();
             atualizar(aluno);
         } else {
-            throw new RuntimeException("Aluno em débito!");
+            throw new RuntimeException("Aluno em não pode!");
         }
 
     }
@@ -133,7 +133,7 @@ public class BibSetorialClient {
         System.out.println(setorialA.consultarAluno("5678").getNome());
 
         System.out.println("Qtd livros :" + setorialA.consultarAluno("5678").getQtdLivros());
-        setorialA.emprestar("5678", new Livro("L", "L", 2000));
+        setorialA.emprestar("5678");
         System.out.println("Qtd livros :" + setorialA.consultarAluno("5678").getQtdLivros());
 
     }

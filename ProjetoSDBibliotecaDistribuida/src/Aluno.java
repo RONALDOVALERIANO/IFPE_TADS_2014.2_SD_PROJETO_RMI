@@ -1,16 +1,14 @@
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Aluno implements Serializable {
 
     private String matricula;
     private String nome;
-    private ArrayList<Livro> livros;
+    private int qtdLivros;
     private String setorial;
 
     public Aluno() {
-        livros = new ArrayList();
     }
 
     public String getNome() {
@@ -30,15 +28,11 @@ public class Aluno implements Serializable {
     }
 
     public int getQtdLivros() {
-        return this.livros.size();
+        return this.qtdLivros;
     }
 
-    public ArrayList<Livro> getLivros() {
-        return livros;
-    }
-
-    public void addLivro(Livro livro) {
-        this.livros.add(livro);
+    public void addLivro() {
+        this.qtdLivros++;
     }
 
     public String getSetorial() {
