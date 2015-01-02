@@ -5,18 +5,16 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Lourivaldo
+ * @author lourivaldo
  */
-public class BibCentralImpl extends UnicastRemoteObject
+public abstract class Biblioteca extends UnicastRemoteObject
         implements BibInterface {
 
     private String nome;
     protected ArrayList<Aluno> alunos;
-//    protected ArrayList<BibSetorialClient> setoriais;
 
-    public BibCentralImpl() throws RemoteException {
-        this.alunos = new ArrayList<>();
-//        this.setoriais = new ArrayList<>();
+    public Biblioteca() throws RemoteException {
+        this.alunos = new ArrayList();
     }
 
     public String getNome() {
@@ -35,7 +33,6 @@ public class BibCentralImpl extends UnicastRemoteObject
                 return aluno;
             }
         }
-
         return null;
     }
 
@@ -45,16 +42,4 @@ public class BibCentralImpl extends UnicastRemoteObject
         this.alunos.add(aluno);
     }
 
-    @Override
-    public void atualizar(Aluno a)
-            throws RemoteException {
-        for (int i = 0; i < alunos.size(); i++) {
-            Aluno aluno = alunos.get(i);
-            if (aluno.getMatricula().equals(a.getMatricula())) {
-                alunos.remove(i);
-                alunos.add(a);
-                break;
-            }
-        }
-    }
 }
