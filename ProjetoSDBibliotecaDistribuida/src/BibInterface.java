@@ -4,12 +4,12 @@ import java.rmi.RemoteException;
 
 public interface BibInterface extends Remote {
 
-    public Aluno consultarAluno(String matricula)
+    public int consultarQtdLivros(int matricula)
             throws RemoteException;
 
-    public void cadastrarAluno(Aluno aluno)
+    public Aluno cadastrarAluno(String nome, String setorial)
             throws RemoteException;
-    
-    public void atualizar(Aluno aluno)
+
+    public void atualizar(int qtdLivros, int matricula, boolean atualizarSetorialCadastro)
             throws RemoteException;
 }

@@ -1,6 +1,7 @@
 
 import java.rmi.RemoteException;
-
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -8,10 +9,24 @@ import java.rmi.RemoteException;
  */
 public class BibliotecaCentral extends Biblioteca {
 
+    protected Map<String, BibInterface> setoriais;
+
+    public BibliotecaCentral() throws RemoteException {
+        this.setoriais = new HashMap();
+    }
 
     @Override
-    public void atualizar(Aluno aluno) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) throws RemoteException {
+        if (setorialCadastro) {
+            super.atualizar(qtdLivros, matricula, true);
+        } else {
+            //atualizar /procurar setorial
+        }
     }
+
+//    @Override
+//    public Aluno cadastrarAluno(String nome, String setorial) throws RemoteException {
+//        return super.cadastrarAluno(nome, setorial);
+//    }
 
 }

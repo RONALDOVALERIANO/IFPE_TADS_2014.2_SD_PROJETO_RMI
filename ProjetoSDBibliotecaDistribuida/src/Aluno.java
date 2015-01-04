@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 public class Aluno implements Serializable {
 
-    private String matricula;
+    private int matricula;
     private String nome;
     private int qtdLivros;
     private String setorial;
@@ -19,11 +19,11 @@ public class Aluno implements Serializable {
         this.nome = nome;
     }
 
-    public String getMatricula() {
+    public int getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(String matricula) {
+    public void setMatricula(int matricula) {
         this.matricula = matricula;
     }
 
@@ -31,8 +31,8 @@ public class Aluno implements Serializable {
         return this.qtdLivros;
     }
 
-    public void addLivro() {
-        this.qtdLivros++;
+    public void setQtdLivros(int qtdLivros) {
+        this.qtdLivros = qtdLivros;
     }
 
     public String getSetorial() {
