@@ -9,16 +9,16 @@ public class Server {
 
     public Server(String nome) {
         try {
-            BibCentralImpl central = new BibCentralImpl();
+            BibliotecaCentral central = new BibliotecaCentral();
             central.setNome(nome);
             
-            Naming.rebind("rmi://localhost:1099/BibCentral", central);
+            Naming.rebind("rmi://localhost:1099/Central", central);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        new Server("Central");
+        new Server("CentralNome");
     }
 }

@@ -1,18 +1,17 @@
 
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author lourivaldo
  */
-public class BibliotecaSetorial extends Biblioteca {
+public class BibliotecaSetorial extends Biblioteca implements BibInterface{
 
     private BibInterface bibCentral;
     private static int qtdLimiteEmprestimo = 3;
 
     public BibliotecaSetorial() throws RemoteException {
+        bibCentral = conectar("localhost", "1099", "Central");
     }
 
     public void setBibCentral(BibInterface bibCentral) {
@@ -39,12 +38,14 @@ public class BibliotecaSetorial extends Biblioteca {
             //espera confirmacao depois atualiza a setorial
             super.alunos.put(aluno.getMatricula(), aluno);
         } catch (RemoteException ex) {
+            ex.printStackTrace();
         }
 
     }
 
     @Override
-    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) throws RemoteException, IllegalArgumentException {
+    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) 
+            throws RemoteException, IllegalArgumentException {
         //espera confirmacao depois atualiza a setorial
         //atualizar na central
         bibCentral.atualizar(qtdLivros, matricula, setorialCadastro);
@@ -78,7 +79,8 @@ public class BibliotecaSetorial extends Biblioteca {
             int qtdDisponivel = (BibliotecaSetorial.qtdLimiteEmprestimo - this.consultarQtdLivros(matricula));
 
             if (qtdDisponivel > 0 && qtdEmprestimo <= qtdDisponivel) {
-//                #######Problema nao encontra matricula
+//                #######Problema nao encontra matricula - Resolvido
+                //atualiza 2 vezes (local-passagem por referencia) - resolvido com rmi - passagem por copia
                 this.atualizar(qtdEmprestimo, matricula, true);
             } else {
                 throw new RuntimeException("Aluno não pode realizar emprestimo! Disponível " + qtdDisponivel + " emprestimo");

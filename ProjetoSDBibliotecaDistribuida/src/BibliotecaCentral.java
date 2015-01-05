@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author lourivaldo
  */
-public class BibliotecaCentral extends Biblioteca {
+public class BibliotecaCentral extends Biblioteca implements BibInterface {
 
     protected Map<String, BibInterface> setoriais;
 
