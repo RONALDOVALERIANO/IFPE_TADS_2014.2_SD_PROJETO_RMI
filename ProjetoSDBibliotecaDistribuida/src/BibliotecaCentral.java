@@ -21,12 +21,12 @@ public class BibliotecaCentral extends Biblioteca implements BibInterface {
          1- Atualizar central
          2- Atualizar central e atualiza setorial 
          */
-        
-        ModoAtualizacao ma = ModoAtualizacao.NESTA_SETORIAL;
-        if (ma == ModoAtualizacao.NESTA_SETORIAL) {
+
+        if (modo == ModoAtualizacao.NESTA_SETORIAL) {
             super.atualizar(qtdLivros, matricula, modo);
-        } else if (ma == ModoAtualizacao.OUTRA_SETORIAL) {
-            BibInterface bibSetorial = conectar("localhost", "1099", consultarAluno(matricula).getSetorial());
+        } else if (modo == ModoAtualizacao.OUTRA_SETORIAL) {
+            Aluno aluno = super.consultarAluno(matricula);
+            BibInterface bibSetorial = super.conectar(aluno.getHost(), aluno.getPorta(), aluno.getSetorial());
             bibSetorial.atualizar(qtdLivros, matricula, ModoAtualizacao.CENTRAL);
             super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
         }

@@ -1,6 +1,8 @@
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -9,47 +11,47 @@ import java.rmi.RemoteException;
 public class Main {
 
     public static void main(String[] args) {
-        int matricula = 1;
+        BibliotecaSetorial setorialA;
+        BibliotecaSetorial setorialB;
+        BibliotecaCentral central;
+        //        ServerCentral central = new ServerCentral("localhost", "1099", "Central");
+
         try {
-//            BibliotecaCentral central = new BibliotecaCentral();
+            central = new BibliotecaCentral();
+            central.setNome("Central");
+            central.setHost("localhost");
+            central.setPorta("1099");
+            central.iniciarRMI();
 
-//Setorial A
-            BibliotecaSetorial setorialA = null;
-            try {
-                setorialA = new BibliotecaSetorial();
-                Naming.rebind("rmi://localhost:1099/SetorialA", setorialA);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//            BibliotecaSetorial setorialA = new BibliotecaSetorial();
+            setorialA = new BibliotecaSetorial();
             setorialA.setNome("SetorialA");
-//            setorialA.setBibCentral(central);
+            setorialA.setHost("localhost");
+            setorialA.setPorta("1099");
+            setorialA.iniciarRMI();
+            setorialA.conectarComCentral("localhost", "1099", "Central");
 
-            setorialA.cadastrar("Loro", setorialA.getNome());
-            System.out.println(setorialA.consultarQtdLivros(matricula));
-            setorialA.emprestar(1, matricula);
-//            setorialA.emprestar(1, matricula);
-            System.out.println(setorialA.consultarQtdLivros(matricula));
-
-            
-BibliotecaSetorial setorialB = null;
-            try {
-                setorialB = new BibliotecaSetorial();
-                Naming.rebind("rmi://localhost:1099/SetorialB", setorialB);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//            BibliotecaSetorial setorialB = new BibliotecaSetorial();
+            setorialB = new BibliotecaSetorial();
             setorialB.setNome("SetorialB");
-//            setorialB.setBibCentral(central);
+            setorialB.setHost("localhost");
+            setorialB.setPorta("1099");
+            setorialB.iniciarRMI();
+            setorialB.conectarComCentral("localhost", "1099", "Central");
+            
+            int matricula = 1;
+            setorialA.cadastrar("Loro");
+            setorialB.cadastrar("Joao");
 
-            setorialB.cadastrar("Joao", setorialB.getNome());
-            System.out.println(setorialB.consultarQtdLivros(matricula));
+            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            setorialA.emprestar(2, matricula);
+            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
             setorialB.emprestar(1, matricula);
-//            setorialB.emprestar(1, matricula);
-            System.out.println(setorialB.consultarQtdLivros(matricula));
-            
-            
+            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            setorialB.emprestar(1, matricula);
+            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }

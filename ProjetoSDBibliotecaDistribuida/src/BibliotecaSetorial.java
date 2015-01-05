@@ -11,7 +11,7 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
     private static int qtdLimiteEmprestimo = 3;
 
     public BibliotecaSetorial() throws RemoteException {
-        bibCentral = conectar("localhost", "1099", "Central");
+        
     }
 
     public void setBibCentral(BibInterface bibCentral) {
@@ -30,11 +30,11 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
         this.bibCentral = super.conectar(host, porta, nomeServico);
     }
 
-    public void cadastrar(String nome, String setorial) {
+    public void cadastrar(String nome) {
         //cadastra na central
         Aluno aluno;
         try {
-            aluno = bibCentral.cadastrarAluno(nome, setorial);
+            aluno = bibCentral.cadastrarAluno(nome, super.nome, super.host, super.porta);
             //espera confirmacao depois atualiza a setorial
             super.alunos.put(aluno.getMatricula(), aluno);
         } catch (RemoteException ex) {
@@ -59,6 +59,7 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
             bibCentral.atualizar(qtdLivros, matricula, modo);
         } else if (modo == ModoAtualizacao.CENTRAL) {
             super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
+            System.out.println("ModoAtualizacao.CENTRAL");
         }
     }
 

@@ -12,9 +12,12 @@ import java.util.Map;
 public abstract class Biblioteca extends UnicastRemoteObject
         implements BibInterface {
 
-    protected String nome;
     protected Map<Integer, Aluno> alunos;
     protected int geradorMatricula;
+    //informaçoes do RMI
+    protected String nome;
+    protected String host;
+    protected String porta;
 
     public Biblioteca() throws RemoteException {
         this.alunos = new HashMap();
@@ -26,6 +29,30 @@ public abstract class Biblioteca extends UnicastRemoteObject
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPorta() {
+        return porta;
+    }
+
+    public void setPorta(String porta) {
+        this.porta = porta;
+    }
+    
+    public void iniciarRMI(){
+        try {  
+            Naming.rebind("rmi://" + this.host + ":" + this.porta + "/" + this.nome, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public BibInterface conectar(String host, String porta, String nomeServico) {
@@ -40,12 +67,14 @@ public abstract class Biblioteca extends UnicastRemoteObject
     }
 
     @Override
-    public Aluno cadastrarAluno(String nome, String setorial) throws RemoteException {
+    public Aluno cadastrarAluno(String nome, String setorial, String host, String porta) throws RemoteException {
         Aluno aluno = new Aluno();
 
         aluno.setMatricula(++geradorMatricula);
         aluno.setNome(nome);
         aluno.setSetorial(setorial);
+        aluno.setHost(host);
+        aluno.setPorta(porta);
 
         this.alunos.put(geradorMatricula, aluno);
 
@@ -68,14 +97,14 @@ public abstract class Biblioteca extends UnicastRemoteObject
     public void atualizar(int qtdLivros, int matricula, ModoAtualizacao modo) throws RemoteException, IllegalArgumentException {
 
 //        if (modo == ModoAtualizacao.NESTA_SETORIAL) {
-        System.out.println(modo.name());
-            Aluno aluno = consultarAluno(matricula);
+//        System.out.println(modo.name());
+        Aluno aluno = consultarAluno(matricula);
 
-            if (aluno != null) {
-                aluno.setQtdLivros(aluno.getQtdLivros() + qtdLivros);
-            } else {
-                throw new IllegalArgumentException("Matrícula Não Consta Na Base De Dados!");
-            }
+        if (aluno != null) {
+            aluno.setQtdLivros(aluno.getQtdLivros() + qtdLivros);
+        } else {
+            throw new IllegalArgumentException("Matrícula Não Consta Na Base De Dados!");
+        }
 //        }
     }
 
