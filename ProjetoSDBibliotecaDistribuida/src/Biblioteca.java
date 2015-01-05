@@ -42,20 +42,20 @@ public abstract class Biblioteca extends UnicastRemoteObject
     @Override
     public Aluno cadastrarAluno(String nome, String setorial) throws RemoteException {
         Aluno aluno = new Aluno();
-        
+
         aluno.setMatricula(++geradorMatricula);
         aluno.setNome(nome);
         aluno.setSetorial(setorial);
-        
+
         this.alunos.put(geradorMatricula, aluno);
-        
+
         return aluno;
     }
 
     @Override
     public int consultarQtdLivros(int matricula) throws RemoteException, IllegalArgumentException {
 
-        Aluno aluno = this.alunos.get(matricula);
+        Aluno aluno = consultarAluno(matricula);
 
         if (aluno != null) {
             return aluno.getQtdLivros();
@@ -65,17 +65,28 @@ public abstract class Biblioteca extends UnicastRemoteObject
     }
 
     @Override
-    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) throws RemoteException, IllegalArgumentException {
+    public void atualizar(int qtdLivros, int matricula, ModoAtualizacao modo) throws RemoteException, IllegalArgumentException {
 
-        if (setorialCadastro) {
-            Aluno aluno = this.alunos.get(matricula);
+//        if (modo == ModoAtualizacao.NESTA_SETORIAL) {
+        System.out.println(modo.name());
+            Aluno aluno = consultarAluno(matricula);
 
             if (aluno != null) {
                 aluno.setQtdLivros(aluno.getQtdLivros() + qtdLivros);
             } else {
                 throw new IllegalArgumentException("Matrícula Não Consta Na Base De Dados!");
             }
+//        }
+    }
+
+    public Aluno consultarAluno(int matricula) {
+        Aluno aluno = this.alunos.get(matricula);
+
+        if (aluno == null) {
+            throw new IllegalArgumentException("Matrícula Não Consta Na Base De Dados!");
         }
+
+        return aluno;
     }
 
 }

@@ -16,17 +16,21 @@ public class BibliotecaCentral extends Biblioteca implements BibInterface {
     }
 
     @Override
-    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) throws RemoteException {
-        if (setorialCadastro) {
-            super.atualizar(qtdLivros, matricula, true);
-        } else {
-            //atualizar /procurar setorial
+    public void atualizar(int qtdLivros, int matricula, ModoAtualizacao modo) throws RemoteException {
+        /*
+         1- Atualizar central
+         2- Atualizar central e atualiza setorial 
+         */
+        
+        ModoAtualizacao ma = ModoAtualizacao.NESTA_SETORIAL;
+        if (ma == ModoAtualizacao.NESTA_SETORIAL) {
+            super.atualizar(qtdLivros, matricula, modo);
+        } else if (ma == ModoAtualizacao.OUTRA_SETORIAL) {
+            BibInterface bibSetorial = conectar("localhost", "1099", consultarAluno(matricula).getSetorial());
+            bibSetorial.atualizar(qtdLivros, matricula, ModoAtualizacao.CENTRAL);
+            super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
         }
-    }
 
-//    @Override
-//    public Aluno cadastrarAluno(String nome, String setorial) throws RemoteException {
-//        return super.cadastrarAluno(nome, setorial);
-//    }
+    }
 
 }

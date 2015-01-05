@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
  *
  * @author lourivaldo
  */
-public class BibliotecaSetorial extends Biblioteca implements BibInterface{
+public class BibliotecaSetorial extends Biblioteca implements BibInterface {
 
     private BibInterface bibCentral;
     private static int qtdLimiteEmprestimo = 3;
@@ -30,7 +30,7 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface{
         this.bibCentral = super.conectar(host, porta, nomeServico);
     }
 
-    public void cadastrar(String nome, String setorial)  {
+    public void cadastrar(String nome, String setorial) {
         //cadastra na central
         Aluno aluno;
         try {
@@ -44,15 +44,22 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface{
     }
 
     @Override
-    public void atualizar(int qtdLivros, int matricula, boolean setorialCadastro) 
+    public void atualizar(int qtdLivros, int matricula, ModoAtualizacao modo)
             throws RemoteException, IllegalArgumentException {
-        //espera confirmacao depois atualiza a setorial
-        //atualizar na central
-        bibCentral.atualizar(qtdLivros, matricula, setorialCadastro);
-        if (setorialCadastro) {
-            super.atualizar(qtdLivros, matricula, setorialCadastro);
+        /*
+         1- Cadastrado nesta setorial - Atualizar central e local
+         2- Cadastrado outra setorial - Atualizar central->Central atualiza setorial (3)
+         3- Central atualizar setorial
+         */
+
+        if (modo == ModoAtualizacao.NESTA_SETORIAL) {
+            bibCentral.atualizar(qtdLivros, matricula, modo);
+            super.atualizar(qtdLivros, matricula, modo);
+        } else if (modo == ModoAtualizacao.OUTRA_SETORIAL) {
+            bibCentral.atualizar(qtdLivros, matricula, modo);
+        } else if (modo == ModoAtualizacao.CENTRAL) {
+            super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
         }
-        
     }
 
     @Override
@@ -79,9 +86,15 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface{
             int qtdDisponivel = (BibliotecaSetorial.qtdLimiteEmprestimo - this.consultarQtdLivros(matricula));
 
             if (qtdDisponivel > 0 && qtdEmprestimo <= qtdDisponivel) {
-//                #######Problema nao encontra matricula - Resolvido
+//                #######Como saber se o aluno é da setorial?
+                //Problema nao encontra matricula - Resolvido
                 //atualiza 2 vezes (local-passagem por referencia) - resolvido com rmi - passagem por copia
-                this.atualizar(qtdEmprestimo, matricula, true);
+                try {
+                    super.consultarAluno(matricula);
+                    this.atualizar(qtdEmprestimo, matricula, ModoAtualizacao.NESTA_SETORIAL);
+                } catch (IllegalArgumentException e) {
+                    this.atualizar(qtdEmprestimo, matricula, ModoAtualizacao.OUTRA_SETORIAL);
+                }
             } else {
                 throw new RuntimeException("Aluno não pode realizar emprestimo! Disponível " + qtdDisponivel + " emprestimo");
             }

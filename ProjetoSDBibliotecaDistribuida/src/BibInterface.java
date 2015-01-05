@@ -10,6 +10,6 @@ public interface BibInterface extends Remote {
     public Aluno cadastrarAluno(String nome, String setorial)
             throws RemoteException;
 
-    public void atualizar(int qtdLivros, int matricula, boolean atualizarSetorialCadastro)
+    public void atualizar(int qtdLivros, int matricula, ModoAtualizacao modo)
             throws RemoteException;
 }
