@@ -5,10 +5,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author lourivaldo
- */
 public abstract class Biblioteca extends UnicastRemoteObject
         implements BibInterface {
 

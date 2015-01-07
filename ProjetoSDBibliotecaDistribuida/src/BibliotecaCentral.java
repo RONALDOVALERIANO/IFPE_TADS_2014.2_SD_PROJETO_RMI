@@ -3,10 +3,6 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author lourivaldo
- */
 public class BibliotecaCentral extends Biblioteca implements BibInterface {
 
     protected Map<String, BibInterface> setoriais;
@@ -29,6 +25,8 @@ public class BibliotecaCentral extends Biblioteca implements BibInterface {
             BibInterface bibSetorial = super.conectar(aluno.getHost(), aluno.getPorta(), aluno.getSetorial());
             bibSetorial.atualizar(qtdLivros, matricula, ModoAtualizacao.CENTRAL);
             super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
+        }else{
+            throw new IllegalArgumentException("A central não aceita o modo de atualização central");
         }
 
     }

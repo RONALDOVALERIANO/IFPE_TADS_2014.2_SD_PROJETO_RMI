@@ -1,10 +1,6 @@
 
 import java.rmi.RemoteException;
 
-/**
- *
- * @author lourivaldo
- */
 public class BibliotecaSetorial extends Biblioteca implements BibInterface {
 
     private BibInterface bibCentral;
@@ -59,7 +55,7 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
             bibCentral.atualizar(qtdLivros, matricula, modo);
         } else if (modo == ModoAtualizacao.CENTRAL) {
             super.atualizar(qtdLivros, matricula, ModoAtualizacao.NESTA_SETORIAL);
-            System.out.println("ModoAtualizacao.CENTRAL");
+//            System.out.println("ModoAtualizacao.CENTRAL");
         }
     }
 

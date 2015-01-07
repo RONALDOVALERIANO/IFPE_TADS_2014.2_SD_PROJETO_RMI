@@ -1,20 +1,12 @@
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Lourivaldo
- */
 public class Main {
 
     public static void main(String[] args) {
         BibliotecaSetorial setorialA;
         BibliotecaSetorial setorialB;
         BibliotecaCentral central;
-        //        ServerCentral central = new ServerCentral("localhost", "1099", "Central");
 
         try {
             central = new BibliotecaCentral();
@@ -49,7 +41,7 @@ public class Main {
             setorialB.emprestar(1, matricula);
             System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
             System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
-            setorialB.emprestar(1, matricula);
+            setorialB.emprestar(1, matricula);//nao pode mais
             System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
             System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
         } catch (RemoteException ex) {
