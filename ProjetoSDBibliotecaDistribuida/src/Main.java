@@ -28,22 +28,27 @@ public class Main {
             setorialB.setPorta("1099");
             setorialB.iniciarRMI();
             setorialB.conectarComCentral("localhost", "1099", "Central");
-            
+
             int matricula = 1;
             setorialA.cadastrar("Loro");
             setorialB.cadastrar("Joao");
 
-            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
-            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            System.out.print("A:" + setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:" + setorialB.consultarQtdLivros(matricula));
+            System.out.println("Emprestando 2 Livros...");
             setorialA.emprestar(2, matricula);
-            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
-            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            System.out.print("A:" + setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:" + setorialB.consultarQtdLivros(matricula));
+            System.out.println("Emprestando 1 Livros...");
             setorialB.emprestar(1, matricula);
-            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
-            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            System.out.println("Devolvendo 2 Livros...");
+            setorialB.devolver(2, matricula);
+            System.out.print("A:" + setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:" + setorialB.consultarQtdLivros(matricula));
+            System.out.println("Emprestando +1 Livros... nao ocasiona erro");
             setorialB.emprestar(1, matricula);//nao pode mais
-            System.out.print("A:"+setorialA.consultarQtdLivros(matricula));
-            System.out.println(" # B:"+setorialB.consultarQtdLivros(matricula));
+            System.out.print("A:" + setorialA.consultarQtdLivros(matricula));
+            System.out.println(" # B:" + setorialB.consultarQtdLivros(matricula));
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }

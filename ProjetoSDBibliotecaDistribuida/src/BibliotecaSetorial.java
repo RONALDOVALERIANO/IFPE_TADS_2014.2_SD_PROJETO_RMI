@@ -1,5 +1,7 @@
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BibliotecaSetorial extends Biblioteca implements BibInterface {
 
@@ -7,7 +9,7 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
     private static int qtdLimiteEmprestimo = 3;
 
     public BibliotecaSetorial() throws RemoteException {
-        
+
     }
 
     public void setBibCentral(BibInterface bibCentral) {
@@ -104,4 +106,23 @@ public class BibliotecaSetorial extends Biblioteca implements BibInterface {
 
     }
 
+    public void devolver(int qtdDevolucao, int matricula) {
+        try {
+            int qtdLivrosAluno = this.consultarQtdLivros(matricula);
+
+            if (qtdLivrosAluno > 0 && qtdLivrosAluno >= qtdDevolucao) {
+                try {
+                    super.consultarAluno(matricula);
+                    this.atualizar(-qtdDevolucao, matricula, ModoAtualizacao.NESTA_SETORIAL);
+                } catch (IllegalArgumentException e) {
+                    this.atualizar(-qtdDevolucao, matricula, ModoAtualizacao.OUTRA_SETORIAL);
+                }
+            } else {
+                throw new RuntimeException("Aluno não pode realizar devolução! Qtd. livros atual:" + qtdLivrosAluno);
+            }
+
+        } catch (RemoteException ex) {
+        }
+
+    }
 }
