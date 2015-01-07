@@ -23,6 +23,8 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroupTipo">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -46,47 +48,41 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="256" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane2" pref="491" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="RadioCentral" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="RadioSetorial" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="campoIP" max="32767" attributes="0"/>
-                                      <Component id="campoPorta" pref="210" max="32767" attributes="0"/>
-                                      <Component id="campoNomeServico" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioCentral" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jRadioSetorial" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTextFieldIP" max="32767" attributes="0"/>
+                              <Component id="jTextFieldPorta" pref="210" max="32767" attributes="0"/>
+                              <Component id="jTextFieldNomeServico" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jButtonIniciarServico" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" alignment="1" pref="491" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="BotaoIniciarServico" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                              <Component id="BotaoCadastrar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="BotaoEmprestar" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="jButtonCadastrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonEmprestar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButtonAtualizar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -96,61 +92,73 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="RadioCentral" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="RadioSetorial" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jRadioCentral" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jRadioSetorial" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="campoNomeServico" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldNomeServico" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="campoIP" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldIP" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="campoPorta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldPorta" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="BotaoIniciarServico" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BotaoCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BotaoEmprestar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonIniciarServico" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonEmprestar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonAtualizar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="368" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" pref="380" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JRadioButton" name="RadioCentral">
+    <Component class="javax.swing.JRadioButton" name="jRadioCentral">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroupTipo"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Central"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RadioCentralActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioCentralActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="RadioSetorial">
+    <Component class="javax.swing.JRadioButton" name="jRadioSetorial">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroupTipo"/>
+        </Property>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Setorial"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioSetorialActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Tela da Setorial/Central JFRAME"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Biblioteca RMI"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -169,29 +177,40 @@
         <Property name="text" type="java.lang.String" value="Porta"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="BotaoIniciarServico">
+    <Component class="javax.swing.JButton" name="jButtonIniciarServico">
       <Properties>
         <Property name="text" type="java.lang.String" value="Iniciar servi&#xe7;o RMI"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIniciarServicoActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="BotaoCadastrar">
+    <Component class="javax.swing.JButton" name="jButtonCadastrar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar Aluno"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCadastrarActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="campoNomeServico">
+    <Component class="javax.swing.JTextField" name="jTextFieldNomeServico">
     </Component>
-    <Component class="javax.swing.JTextField" name="campoIP">
+    <Component class="javax.swing.JTextField" name="jTextFieldIP">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="campoPorta">
+    <Component class="javax.swing.JTextField" name="jTextFieldPorta">
     </Component>
-    <Component class="javax.swing.JButton" name="BotaoEmprestar">
+    <Component class="javax.swing.JButton" name="jButtonEmprestar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Emprestar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEmprestarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
@@ -200,7 +219,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable2">
+        <Component class="javax.swing.JTable" name="jTableAlunosCadastrados">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="20">
@@ -246,6 +265,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -253,5 +273,11 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButtonAtualizar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Atualizar"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

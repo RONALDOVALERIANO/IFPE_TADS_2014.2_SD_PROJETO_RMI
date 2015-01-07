@@ -1,8 +1,21 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author USUARIO
  */
 public class Tela extends javax.swing.JFrame {
+
+    private Biblioteca biblioteca;
 
     /**
      * Creates new form NewJFrame
@@ -22,20 +35,22 @@ public class Tela extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        RadioCentral = new javax.swing.JRadioButton();
-        RadioSetorial = new javax.swing.JRadioButton();
+        buttonGroupTipo = new javax.swing.ButtonGroup();
+        jRadioCentral = new javax.swing.JRadioButton();
+        jRadioSetorial = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        BotaoIniciarServico = new javax.swing.JButton();
-        BotaoCadastrar = new javax.swing.JButton();
-        campoNomeServico = new javax.swing.JTextField();
-        campoIP = new javax.swing.JTextField();
-        campoPorta = new javax.swing.JTextField();
-        BotaoEmprestar = new javax.swing.JButton();
+        jButtonIniciarServico = new javax.swing.JButton();
+        jButtonCadastrar = new javax.swing.JButton();
+        jTextFieldNomeServico = new javax.swing.JTextField();
+        jTextFieldIP = new javax.swing.JTextField();
+        jTextFieldPorta = new javax.swing.JTextField();
+        jButtonEmprestar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableAlunosCadastrados = new javax.swing.JTable();
+        jButtonAtualizar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -52,17 +67,26 @@ public class Tela extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        RadioCentral.setText("Central");
-        RadioCentral.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroupTipo.add(jRadioCentral);
+        jRadioCentral.setText("Central");
+        jRadioCentral.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RadioCentralActionPerformed(evt);
+                jRadioCentralActionPerformed(evt);
             }
         });
 
-        RadioSetorial.setText("Setorial");
+        buttonGroupTipo.add(jRadioSetorial);
+        jRadioSetorial.setSelected(true);
+        jRadioSetorial.setText("Setorial");
+        jRadioSetorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioSetorialActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Tela da Setorial/Central JFRAME");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Biblioteca RMI");
 
         jLabel2.setText("Nome Serviço:");
         jLabel2.setToolTipText("");
@@ -71,15 +95,32 @@ public class Tela extends javax.swing.JFrame {
 
         jLabel4.setText("Porta");
 
-        BotaoIniciarServico.setText("Iniciar serviço RMI");
+        jButtonIniciarServico.setText("Iniciar serviço RMI");
+        jButtonIniciarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIniciarServicoActionPerformed(evt);
+            }
+        });
 
-        BotaoCadastrar.setText("Cadastrar Aluno");
+        jButtonCadastrar.setText("Cadastrar Aluno");
+        jButtonCadastrar.setEnabled(false);
+        jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastrarActionPerformed(evt);
+            }
+        });
 
-        campoIP.setToolTipText("");
+        jTextFieldIP.setToolTipText("");
 
-        BotaoEmprestar.setText("Emprestar");
+        jButtonEmprestar.setText("Emprestar");
+        jButtonEmprestar.setEnabled(false);
+        jButtonEmprestar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEmprestarActionPerformed(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAlunosCadastrados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -106,88 +147,141 @@ public class Tela extends javax.swing.JFrame {
                 "Matrícula", "Nome", "QTD Livros", "Setorial", "Host", "Porta"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jTableAlunosCadastrados.setEnabled(false);
+        jScrollPane2.setViewportView(jTableAlunosCadastrados);
+
+        jButtonAtualizar.setText("Atualizar");
+        jButtonAtualizar.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(RadioCentral))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(RadioSetorial)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(campoIP)
-                                        .addComponent(campoPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                        .addComponent(campoNomeServico))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
-                                .addComponent(jLabel1)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jRadioCentral))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioSetorial)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldIP)
+                                .addComponent(jTextFieldPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNomeServico)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(BotaoIniciarServico)
-                                .addGap(85, 85, 85)
-                                .addComponent(BotaoCadastrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BotaoEmprestar)))))
+                        .addComponent(jButtonIniciarServico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCadastrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEmprestar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonAtualizar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(31, 31, 31)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RadioCentral)
-                    .addComponent(RadioSetorial))
+                    .addComponent(jRadioCentral)
+                    .addComponent(jRadioSetorial))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(campoNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(campoIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(campoPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotaoIniciarServico)
-                    .addComponent(BotaoCadastrar)
-                    .addComponent(BotaoEmprestar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonIniciarServico)
+                    .addComponent(jButtonCadastrar)
+                    .addComponent(jButtonEmprestar)
+                    .addComponent(jButtonAtualizar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RadioCentralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioCentralActionPerformed
+    private void habilitarEntradas(boolean enabled) {
+        jRadioCentral.setEnabled(enabled);
+        jRadioSetorial.setEnabled(enabled);
+        jTextFieldNomeServico.setEnabled(enabled);
+        jTextFieldIP.setEnabled(enabled);
+        jTextFieldPorta.setEnabled(enabled);
+
+    }
+
+    private void jButtonIniciarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarServicoActionPerformed
+        habilitarEntradas(false);
+
+        String servico = jTextFieldNomeServico.getText();
+        String ip = jTextFieldIP.getText();
+        String porta = jTextFieldPorta.getText();
+
+        if (jRadioCentral.isSelected()) {
+            try {
+                this.biblioteca = new BibliotecaCentral();
+            } catch (RemoteException ex) {
+            }
+        } else {
+            try {
+                this.biblioteca = new BibliotecaSetorial();
+                jButtonAtualizar.setEnabled(true);
+                jButtonCadastrar.setEnabled(true);
+                jButtonEmprestar.setEnabled(true);
+            } catch (RemoteException ex) {
+            }
+        }
+
+        this.biblioteca.setNome("Central");
+        this.biblioteca.setHost("localhost");
+        this.biblioteca.setPorta("1099");
+        this.biblioteca.iniciarRMI();
+
+
+    }//GEN-LAST:event_jButtonIniciarServicoActionPerformed
+
+    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_RadioCentralActionPerformed
+    }//GEN-LAST:event_jButtonCadastrarActionPerformed
+
+    private void jButtonEmprestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEmprestarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonEmprestarActionPerformed
+
+    private void jRadioSetorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioSetorialActionPerformed
+    }//GEN-LAST:event_jRadioSetorialActionPerformed
+
+    private void jRadioCentralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioCentralActionPerformed
+    }//GEN-LAST:event_jRadioCentralActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        System.setProperty("java.net.preferIPv4Stack", "true");
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -221,21 +315,23 @@ public class Tela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotaoCadastrar;
-    private javax.swing.JButton BotaoEmprestar;
-    private javax.swing.JButton BotaoIniciarServico;
-    private javax.swing.JRadioButton RadioCentral;
-    private javax.swing.JRadioButton RadioSetorial;
-    private javax.swing.JTextField campoIP;
-    private javax.swing.JTextField campoNomeServico;
-    private javax.swing.JTextField campoPorta;
+    private javax.swing.ButtonGroup buttonGroupTipo;
+    private javax.swing.JButton jButtonAtualizar;
+    private javax.swing.JButton jButtonCadastrar;
+    private javax.swing.JButton jButtonEmprestar;
+    private javax.swing.JButton jButtonIniciarServico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JRadioButton jRadioCentral;
+    private javax.swing.JRadioButton jRadioSetorial;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableAlunosCadastrados;
+    private javax.swing.JTextField jTextFieldIP;
+    private javax.swing.JTextField jTextFieldNomeServico;
+    private javax.swing.JTextField jTextFieldPorta;
     // End of variables declaration//GEN-END:variables
 }

@@ -42,6 +42,10 @@ public abstract class Biblioteca extends UnicastRemoteObject
     public void setPorta(String porta) {
         this.porta = porta;
     }
+
+    public Map<Integer, Aluno> getAlunos() {
+        return alunos;
+    }
     
     public void iniciarRMI(){
         try {  
